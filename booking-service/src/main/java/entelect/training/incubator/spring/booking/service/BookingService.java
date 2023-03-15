@@ -49,14 +49,20 @@ public class BookingService {
         return result;
     }
 
-    public Booking searchBookings(BookingSearchRequest searchRequest) {
-        Map<BookingSearchType, Supplier<Optional<Booking>>> searchStrategies = new HashMap<>();
+//    public Booking searchBookings(BookingSearchRequest searchRequest) {
+//        Map<BookingSearchType, Supplier<Optional<Booking>>> searchStrategies = new HashMap<>();
+//
+//        searchStrategies.put(BookingSearchType.CUSTOMER_SEARCH, () -> bookingRepository.findBycustomerId(searchRequest.getCustomerId()));
+//       // searchStrategies.put(BookingSearchType.REFERENCE_SEARCH, () -> bookingRepository.searchBookingByReference(searchRequest.getReferenceNumber()));
+//
+//        Optional<Booking> customerOptional = searchStrategies.get(searchRequest.getSearchType()).get();
+//
+//        return customerOptional.orElse(null);
+//    }
 
-        searchStrategies.put(BookingSearchType.CUSTOMER_SEARCH, () -> bookingRepository.findBycustomerId(searchRequest.getCustomerId()));
-       // searchStrategies.put(BookingSearchType.REFERENCE_SEARCH, () -> bookingRepository.searchBookingByReference(searchRequest.getReferenceNumber()));
+    public Booking searchCustomer(Integer customerId) {
+        Optional<Booking> bookingOptional = bookingRepository.findByCustomerId(customerId);
 
-        Optional<Booking> customerOptional = searchStrategies.get(searchRequest.getSearchType()).get();
-
-        return customerOptional.orElse(null);
+        return bookingOptional.orElse(null);
     }
 }

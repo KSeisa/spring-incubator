@@ -79,13 +79,17 @@ public class BookingController {
     public ResponseEntity<?> searchBookings(@RequestBody BookingSearchRequest searchRequest) {
         LOGGER.info("Processing booking search request for request {}", searchRequest);
 
-        Booking booking = bookingService.searchBookings(searchRequest);
+        final Booking foundBooking;
 
-        if (booking != null) {
-            return ResponseEntity.ok(booking);
+        if (searchRequest.getCustomerId() != null) {
+            foundBooking=bookingService.searchCustomer(searchRequest.getCustomerId());
+        }
+        else{
+            foundBooking=bookingService.searchCustomer(searchRequest.getCustomerId());
+
         }
 
-        LOGGER.trace("Booking not found");
-        return ResponseEntity.notFound().build();
+        return new ResponseEntity<>(foundBooking, HttpStatus.FOUND);
+
     }
 }

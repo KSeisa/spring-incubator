@@ -16,7 +16,7 @@ public interface BookingRepository extends CrudRepository<Booking, Integer> {
 //
   //  Optional<Booking> searchBookingByCustomer(Integer customerId);
 
-    Optional<Booking> findBycustomerId(Integer customerId);
+    Optional<Booking> findByCustomerId(Integer customerId);
 //
 //    Optional<Booking> searchBookingByReference(Integer reference);
 }
