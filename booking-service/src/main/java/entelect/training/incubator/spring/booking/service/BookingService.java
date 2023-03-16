@@ -55,4 +55,9 @@ public class BookingService {
 
         return searchStrategies.get(searchRequest.getSearchType()).get();
     }
+
+    public Booking searchReference(String referenceNumber) {
+        Optional<Booking> bookingOptional = bookingRepository.findByReferenceNumber(referenceNumber);
+        return bookingOptional.orElse(null);
+    }
 }
