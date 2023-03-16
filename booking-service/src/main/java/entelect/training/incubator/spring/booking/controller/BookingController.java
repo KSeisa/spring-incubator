@@ -37,14 +37,9 @@ public class BookingController {
                 .toString();
         String generatedNumber = String.valueOf(random.nextInt(10000));
 
-
         savedBooking.setReferenceNumber(generatedString.toUpperCase() + generatedNumber);
 
         LOGGER.trace("Booking created");
-
-        //Send Notification
-
-
         return new ResponseEntity<>(savedBooking, HttpStatus.CREATED);
     }
 
