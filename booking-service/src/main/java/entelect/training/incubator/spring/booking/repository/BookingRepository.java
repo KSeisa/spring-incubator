@@ -10,7 +10,7 @@ import java.util.List;
 public interface BookingRepository extends CrudRepository<Booking, Integer> {
 //    Optional<Booking> makeBooking(Integer customer, Integer flight);
 //    Optional<Booking> getBookingById(Integer id);
-    List<Booking> searchBookingByCustomer(Integer customer);
+    List<Booking> searchBookingByCustomer(Integer customerId);
     List<Booking> searchBookingByReferenceNumber(String referenceNumber);
 //    Optional<Booking> findByCustomer(Integer customer);
 }
