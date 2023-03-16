@@ -11,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Random;
 
 @RestController
 @RequestMapping("bookings")
@@ -29,7 +30,21 @@ public class BookingController {
 
         final Booking savedBooking = bookingService.createBooking(booking);
 
+        Random random = new Random();
+        String generatedString = random.ints(97, 122 + 1)
+                .limit(4)
+                .collect(StringBuilder::new, StringBuilder::appendCodePoint, StringBuilder::append)
+                .toString();
+        String generatedNumber = String.valueOf(random.nextInt(10000));
+
+
+        savedBooking.setReferenceNumber(generatedString.toUpperCase() + generatedNumber);
+
         LOGGER.trace("Booking created");
+
+        //Send Notification
+
+
         return new ResponseEntity<>(savedBooking, HttpStatus.CREATED);
     }
 

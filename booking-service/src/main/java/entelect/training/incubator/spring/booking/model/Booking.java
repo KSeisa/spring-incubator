@@ -18,5 +18,5 @@ public class Booking {
 
     private Integer customer;
     private Integer flight;
-    private String referenceNumber="ABC1234";
+    private String referenceNumber;
 }
