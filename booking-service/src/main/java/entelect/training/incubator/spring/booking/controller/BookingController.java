@@ -5,7 +5,7 @@ import entelect.training.incubator.spring.booking.model.Booking;
 //import entelect.training.incubator.spring.booking.model.BookingSearchRequest;
 import entelect.training.incubator.spring.booking.model.BookingSearchRequest;
 import entelect.training.incubator.spring.booking.service.BookingService;
-import entelect.training.incubator.spring.customer.model.Customer;
+//import entelect.training.incubator.spring.customer.model.Customer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -105,8 +105,6 @@ public class BookingController {
             foundBooking=bookingService.searchReference(searchRequest.getReferenceNumber());
 
         }
-
         return new ResponseEntity<>(foundBooking, HttpStatus.FOUND);
-
     }
 }
