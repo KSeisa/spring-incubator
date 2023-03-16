@@ -65,4 +65,9 @@ public class BookingService {
 
         return bookingOptional.orElse(null);
     }
+
+    public Booking searchReference(String referenceNumber) {
+        Optional<Booking> bookingOptional = bookingRepository.findByReferenceNumber(referenceNumber);
+        return bookingOptional.orElse(null);
+    }
 }

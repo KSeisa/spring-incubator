@@ -6,5 +6,5 @@ import lombok.Data;
 public class BookingSearchRequest {
    // private BookingSearchType searchType;
     private Integer customerId;
-    private Integer referenceNumber;
+    private String referenceNumber;
 }

@@ -90,6 +90,23 @@ public class BookingController {
         }
 
         return new ResponseEntity<>(foundBooking, HttpStatus.FOUND);
+    }
+
+    @PostMapping("/search/ref")
+    public ResponseEntity<?> searchBookingsByReference(@RequestBody BookingSearchRequest searchRequest) {
+        LOGGER.info("Processing booking search request for request {}", searchRequest);
+
+        final Booking foundBooking;
+
+        if (searchRequest.getReferenceNumber() != null) {
+            foundBooking=bookingService.searchReference(searchRequest.getReferenceNumber());
+        }
+        else{
+            foundBooking=bookingService.searchReference(searchRequest.getReferenceNumber());
+
+        }
+
+        return new ResponseEntity<>(foundBooking, HttpStatus.FOUND);
 
     }
 }
