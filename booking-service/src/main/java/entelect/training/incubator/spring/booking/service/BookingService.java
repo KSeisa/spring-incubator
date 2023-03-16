@@ -2,8 +2,6 @@ package entelect.training.incubator.spring.booking.service;
 
 
 import entelect.training.incubator.spring.booking.model.*;
-//import entelect.training.incubator.spring.booking.model.BookingSearchRequest;
-//import entelect.training.incubator.spring.booking.model.BookingSearchType;
 import entelect.training.incubator.spring.booking.repository.BookingRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -23,12 +21,12 @@ public class BookingService {
 
     public Booking createBooking(Booking booking) {
         RestTemplate restTemplate=new RestTemplate();
-        String customerRest= "http://localhost:8201/customers/" + booking.getCustomerId();
-        String flightRest="http://localhost:8202/flights/" + booking.getFlightId();
+        String customerRest= "http://localhost:8201/customers/" + booking.getCustomer();
+        String flightRest="http://localhost:8202/flights/" + booking.getFlight();
         Customer customer= restTemplate.getForObject(customerRest,Customer.class);
         Flight flight=restTemplate.getForObject(flightRest, Flight.class);
 
-        if(customer ==null || flight== null) {
+        if(customer == null || flight == null) {
             return null;
         }
 
@@ -49,20 +47,12 @@ public class BookingService {
         return result;
     }
 
-//    public Booking searchBookings(BookingSearchRequest searchRequest) {
-//        Map<BookingSearchType, Supplier<Optional<Booking>>> searchStrategies = new HashMap<>();
-//
-//        searchStrategies.put(BookingSearchType.CUSTOMER_SEARCH, () -> bookingRepository.findBycustomerId(searchRequest.getCustomerId()));
-//       // searchStrategies.put(BookingSearchType.REFERENCE_SEARCH, () -> bookingRepository.searchBookingByReference(searchRequest.getReferenceNumber()));
-//
-//        Optional<Booking> customerOptional = searchStrategies.get(searchRequest.getSearchType()).get();
-//
-//        return customerOptional.orElse(null);
-//    }
+    public List<entelect.training.incubator.spring.booking.model.Booking> searchBookings(BookingSearchRequest searchRequest) {
+        Map<BookingSearchType, Supplier<List<entelect.training.incubator.spring.booking.model.Booking>>> searchStrategies = new HashMap<>();
 
-    public Booking searchCustomer(Integer customerId) {
-        Optional<Booking> bookingOptional = bookingRepository.findByCustomerId(customerId);
+        searchStrategies.put(BookingSearchType.CUSTOMER_SEARCH, () -> bookingRepository.searchBookingByCustomer(searchRequest.getCustomer()));
+        searchStrategies.put(BookingSearchType.REFERENCE_NUMBER_SEARCH, () -> bookingRepository.searchBookingByReferenceNumber(searchRequest.getReferenceNumber()));
 
-        return bookingOptional.orElse(null);
+        return searchStrategies.get(searchRequest.getSearchType()).get();
     }
 }

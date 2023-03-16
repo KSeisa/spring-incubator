@@ -2,10 +2,8 @@ package entelect.training.incubator.spring.booking.controller;
 
 
 import entelect.training.incubator.spring.booking.model.Booking;
-//import entelect.training.incubator.spring.booking.model.BookingSearchRequest;
 import entelect.training.incubator.spring.booking.model.BookingSearchRequest;
 import entelect.training.incubator.spring.booking.service.BookingService;
-import entelect.training.incubator.spring.customer.model.Customer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -35,16 +33,6 @@ public class BookingController {
         return new ResponseEntity<>(savedBooking, HttpStatus.CREATED);
     }
 
-//    @PostMapping
-//    public ResponseEntity<?> makeBooking(@RequestBody Booking booking) {
-//        LOGGER.info("Processing booking creation request for booking={}", booking);
-//
-//        final Booking savedBooking = bookingService.makeBooking(booking);
-//
-//        LOGGER.trace("Booking created");
-//        return new ResponseEntity<>(savedBooking, HttpStatus.CREATED);
-//    }
-
     @GetMapping()
     public ResponseEntity<?> getBooking() {
         LOGGER.info("Fetching all bookings");
@@ -61,8 +49,8 @@ public class BookingController {
 
 
     @GetMapping("{id}")
-    public ResponseEntity<?> getFlightById(@PathVariable Integer id) {
-        LOGGER.info("Processing customer search request for booking id={}", id);
+    public ResponseEntity<?> getBookingById(@PathVariable Integer id) {
+        LOGGER.info("Processing booking search request for booking id={}", id);
         Booking booking = this.bookingService.getBookingById(id);
 
         if (booking != null) {
@@ -74,22 +62,18 @@ public class BookingController {
         return ResponseEntity.notFound().build();
     }
 
-
     @PostMapping("/search")
     public ResponseEntity<?> searchBookings(@RequestBody BookingSearchRequest searchRequest) {
-        LOGGER.info("Processing booking search request for request {}", searchRequest);
+        LOGGER.info("Processing booking search request: {}", searchRequest);
 
-        final Booking foundBooking;
+        List<Booking> bookings = bookingService.searchBookings(searchRequest);
 
-        if (searchRequest.getCustomerId() != null) {
-            foundBooking=bookingService.searchCustomer(searchRequest.getCustomerId());
-        }
-        else{
-            foundBooking=bookingService.searchCustomer(searchRequest.getCustomerId());
-
+        if (!bookings.isEmpty()) {
+            LOGGER.trace("Found bookings: {}", bookings);
+            return new ResponseEntity<>(bookings, HttpStatus.OK);
         }
 
-        return new ResponseEntity<>(foundBooking, HttpStatus.FOUND);
-
+        LOGGER.trace("No bookings found");
+        return ResponseEntity.notFound().build();
     }
 }

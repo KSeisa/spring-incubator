@@ -14,9 +14,9 @@ import javax.persistence.Id;
 public class Booking {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Integer id;
 
-    private int customerId;
-    private int flightId;
+    private Integer customer;
+    private Integer flight;
     private String referenceNumber="ABC1234";
 }
