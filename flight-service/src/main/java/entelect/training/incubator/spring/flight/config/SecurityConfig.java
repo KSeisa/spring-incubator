@@ -31,20 +31,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         auth.inMemoryAuthentication().withUser("admin").password("{noop}is_a_lie").roles("ADMIN");
     }
 
-//    @Override
-//    protected void configure(HttpSecurity http) throws Exception {
-//        http.csrf().disable() // !!! Disclaimer: NEVER DISABLE CSRF IN PRODUCTION !!!
-//                .authorizeRequests()
-//                .antMatchers(HttpMethod.GET, "/flights/**").permitAll()
-//                .antMatchers(HttpMethod.POST, "/flights/**").permitAll()
-////                .anyRequest().denyAll()
-//                .and()
-//                .httpBasic();
-//    }
-
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable() // !!! Disclaimer: NEVER DISABLE CSRF IN PRODUCTION !!!
+                .cors().and()
                 .authorizeRequests()
                 .antMatchers(HttpMethod.GET, "/flights/**").permitAll()
                 .antMatchers(HttpMethod.POST, "/flights/**").permitAll()

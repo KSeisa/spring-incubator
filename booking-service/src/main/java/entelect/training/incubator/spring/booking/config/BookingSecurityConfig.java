@@ -34,6 +34,7 @@ public class BookingSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable() // !!! Disclaimer: NEVER DISABLE CSRF IN PRODUCTION !!!
+                .cors().and()
                 .authorizeRequests()
                 .antMatchers(HttpMethod.GET, "/bookings/**").permitAll()
                 .antMatchers(HttpMethod.POST, "/bookings/**").permitAll()

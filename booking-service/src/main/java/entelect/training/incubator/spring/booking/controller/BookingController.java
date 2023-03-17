@@ -1,6 +1,5 @@
 package entelect.training.incubator.spring.booking.controller;
 
-
 import entelect.training.incubator.spring.booking.model.*;
 import entelect.training.incubator.spring.booking.service.BookingService;
 import org.slf4j.Logger;
@@ -23,6 +22,7 @@ import java.util.Random;
 
 @RestController
 @RequestMapping("bookings")
+@CrossOrigin(origins ={"http://localhost:4200"}, methods={RequestMethod.GET, RequestMethod.POST})
 public class BookingController {
     private final Logger LOGGER = LoggerFactory.getLogger(BookingController.class);
 
@@ -73,8 +73,6 @@ public class BookingController {
     public ResponseEntity<?> createBooking(@RequestBody Booking booking) {
         LOGGER.info("Processing booking creation request for booking={}", booking);
 
-        final Booking savedBooking = bookingService.createBooking(booking);
-
         Random random = new Random();
         String generatedString = random.ints(97, 122 + 1)
                 .limit(4)
@@ -82,7 +80,9 @@ public class BookingController {
                 .toString();
         String generatedNumber = String.valueOf(random.nextInt(10000));
 
-        savedBooking.setReferenceNumber(generatedString.toUpperCase() + generatedNumber);
+        booking.setReferenceNumber(generatedString.toUpperCase() + generatedNumber);
+
+        final Booking savedBooking = bookingService.createBooking(booking);
 
         Customer customer = (Customer) getRequest("http://localhost:8201/customers/", booking.getCustomer(), Customer.class);
         Flight flight = (Flight) getRequest("http://localhost:8202/flights/", booking.getFlight(), Flight.class);
