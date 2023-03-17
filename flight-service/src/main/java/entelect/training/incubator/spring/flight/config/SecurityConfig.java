@@ -29,6 +29,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.inMemoryAuthentication().withUser("user").password("{noop}the_cake").roles("USER");
         auth.inMemoryAuthentication().withUser("admin").password("{noop}is_a_lie").roles("ADMIN");
+        auth.inMemoryAuthentication().withUser("loyalty").password("{noop}because_its_not_sweet").roles("LOYALTY_USER");
     }
 
     @Override
@@ -37,7 +38,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .cors().and()
                 .authorizeRequests()
                 .antMatchers(HttpMethod.GET, "/flights/**").permitAll()
-                .antMatchers(HttpMethod.POST, "/flights/**").permitAll()
+                .antMatchers(HttpMethod.POST, "/flights/**").hasAnyRole("SYSTEM", "ADMIN")
+                .antMatchers(HttpMethod.GET, "/flights/specials").hasAnyRole("LOYALTY_USER", "ADMIN")
 //                .anyRequest().denyAll()
                 .and()
                 .httpBasic();

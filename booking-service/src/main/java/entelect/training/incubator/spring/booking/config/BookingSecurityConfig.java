@@ -36,8 +36,8 @@ public class BookingSecurityConfig extends WebSecurityConfigurerAdapter {
         http.csrf().disable() // !!! Disclaimer: NEVER DISABLE CSRF IN PRODUCTION !!!
                 .cors().and()
                 .authorizeRequests()
-                .antMatchers(HttpMethod.GET, "/bookings/**").permitAll()
-                .antMatchers(HttpMethod.POST, "/bookings/**").permitAll()
+                .antMatchers(HttpMethod.GET, "/bookings/**").hasAnyRole("USER", "ADMIN")
+                .antMatchers(HttpMethod.POST, "/bookings/**").hasAnyRole("USER", "ADMIN")
 //                .anyRequest().denyAll()
                 .and()
                 .httpBasic();
