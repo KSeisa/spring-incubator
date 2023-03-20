@@ -2,6 +2,9 @@ package entelect.training.incubator.spring.booking.controller;
 
 import entelect.training.incubator.spring.booking.model.*;
 import entelect.training.incubator.spring.booking.service.BookingService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -54,11 +57,9 @@ public class BookingController {
         String authStr = "admin:is_a_lie";
         String base64Creds = Base64.getEncoder().encodeToString(authStr.getBytes());
 
-        // create headers
         HttpHeaders headers = new HttpHeaders();
         headers.add("Authorization", "Basic " + base64Creds);
 
-        // create request
         HttpEntity request = new HttpEntity(headers);
         String uri = url + parameter;
         RestTemplate restTemplate =  restTemplateBuilder
@@ -69,6 +70,10 @@ public class BookingController {
         return o;
     }
 
+    @Operation(summary = "Create a new booking")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Booking successfully made")
+    })
     @PostMapping
     public ResponseEntity<?> createBooking(@RequestBody Booking booking) {
         LOGGER.info("Processing booking creation request for booking={}", booking);
@@ -100,6 +105,11 @@ public class BookingController {
         return new ResponseEntity<>(savedBooking, HttpStatus.CREATED);
     }
 
+    @Operation(summary = "Get all bookings")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Bookings retrieved successfully"),
+            @ApiResponse(responseCode = "404", description = "No bookings made")
+    })
     @GetMapping()
     public ResponseEntity<?> getBooking() {
         LOGGER.info("Fetching all bookings");
@@ -114,7 +124,11 @@ public class BookingController {
         return ResponseEntity.notFound().build();
     }
 
-
+    @Operation(summary = "Get booking by ID")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Booking retrieved successfully"),
+            @ApiResponse(responseCode = "404", description = "Booking does not exist")
+    })
     @GetMapping("{id}")
     public ResponseEntity<?> getBookingById(@PathVariable Integer id) {
         LOGGER.info("Processing booking search request for booking id={}", id);
@@ -129,6 +143,11 @@ public class BookingController {
         return ResponseEntity.notFound().build();
     }
 
+    @Operation(summary = "Search for booking")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Booking(s) retrieved successfully"),
+            @ApiResponse(responseCode = "404", description = "No bookings matching parameters")
+    })
     @PostMapping("/search")
     public ResponseEntity<?> searchBookings(@RequestBody BookingSearchRequest searchRequest) {
         LOGGER.info("Processing booking search request: {}", searchRequest);
