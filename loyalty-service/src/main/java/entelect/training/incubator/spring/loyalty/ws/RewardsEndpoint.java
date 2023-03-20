@@ -14,30 +14,30 @@ import java.math.BigDecimal;
 
 @Endpoint
 public class RewardsEndpoint {
-    
+
     private static final String NAMESPACE_URI = "http://entelect.training/incubator/spring-loyalty-service";
-    
+
     private final RewardsService rewardsService;
-    
+
     public RewardsEndpoint(RewardsService rewardsService) {
         this.rewardsService = rewardsService;
     }
-    
+
     @PayloadRoot(namespace = NAMESPACE_URI, localPart = "captureRewardsRequest")
     @ResponsePayload
     public CaptureRewardsResponse captureRewards(@RequestPayload CaptureRewardsRequest request) {
         final BigDecimal balance = this.rewardsService.updateBalance(request.getPassportNumber(), request.getAmount());
-    
+
         final CaptureRewardsResponse response = new CaptureRewardsResponse();
         response.setBalance(balance);
         return response;
     }
-    
+
     @PayloadRoot(namespace = NAMESPACE_URI, localPart = "rewardsBalanceRequest")
     @ResponsePayload
     public RewardsBalanceResponse rewardsBalance(@RequestPayload RewardsBalanceRequest request) {
         final BigDecimal balance = this.rewardsService.getBalance(request.getPassportNumber());
-        
+
         final RewardsBalanceResponse response = new RewardsBalanceResponse();
         response.setBalance(balance);
         return response;
