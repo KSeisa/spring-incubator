@@ -4,7 +4,10 @@ import entelect.training.incubator.spring.flight.model.Flight;
 import entelect.training.incubator.spring.flight.model.FlightsSearchRequest;
 import entelect.training.incubator.spring.flight.model.SearchType;
 import entelect.training.incubator.spring.flight.repository.FlightRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.cache.CacheManager;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -70,6 +73,7 @@ public class FlightsService {
         return discountedFlights;
     }
 
+    @Cacheable(value = "flight_cache", key = "searchRequest")
     public List<Flight> searchFlights(FlightsSearchRequest searchRequest) {
         Map<SearchType, Supplier<List<Flight>>> searchStrategies = new HashMap<>();
 

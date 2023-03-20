@@ -1,10 +1,12 @@
 package entelect.training.incubator.spring.loyalty.config;
 
+import entelect.training.incubator.spring.loyalty.ws.RewardsEndpoint;
 import org.springframework.boot.web.servlet.ServletRegistrationBean;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.ClassPathResource;
+import org.springframework.oxm.jaxb.Jaxb2Marshaller;
 import org.springframework.ws.config.annotation.EnableWs;
 import org.springframework.ws.config.annotation.WsConfigurerAdapter;
 import org.springframework.ws.transport.http.MessageDispatcherServlet;
@@ -33,7 +35,22 @@ public class WebServiceConfig extends WsConfigurerAdapter {
         wsdl11Definition.setSchema(countriesSchema);
         return wsdl11Definition;
     }
-    
+
+    @Bean
+    public Jaxb2Marshaller marshaller() {
+        Jaxb2Marshaller marshaller = new Jaxb2Marshaller();
+        marshaller.setContextPath("entelect.training.incubator.spring.loyalty.client.gen");
+        return marshaller;
+    }
+//    @Bean
+//    public RewardsEndpoint rewardsEndpoint(Jaxb2Marshaller marshaller) {
+//        //RewardsEndpoint client = new RewardsEndpoint();
+//        client.setDefaultUri("http://localhost:8080/ws");
+//        client.setMarshaller(marshaller);
+//        client.setUnmarshaller(marshaller);
+//        return client;
+//    }
+
     @Bean
     public XsdSchema countriesSchema() {
         return new SimpleXsdSchema(new ClassPathResource("Rewards.xsd"));

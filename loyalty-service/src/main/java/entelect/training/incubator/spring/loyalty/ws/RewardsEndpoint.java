@@ -5,6 +5,7 @@ import entelect.training.incubator.spring.loyalty.ws.model.CaptureRewardsRequest
 import entelect.training.incubator.spring.loyalty.ws.model.CaptureRewardsResponse;
 import entelect.training.incubator.spring.loyalty.ws.model.RewardsBalanceRequest;
 import entelect.training.incubator.spring.loyalty.ws.model.RewardsBalanceResponse;
+import org.springframework.ws.client.core.support.WebServiceGatewaySupport;
 import org.springframework.ws.server.endpoint.annotation.Endpoint;
 import org.springframework.ws.server.endpoint.annotation.PayloadRoot;
 import org.springframework.ws.server.endpoint.annotation.RequestPayload;
@@ -13,7 +14,7 @@ import org.springframework.ws.server.endpoint.annotation.ResponsePayload;
 import java.math.BigDecimal;
 
 @Endpoint
-public class RewardsEndpoint {
+public class RewardsEndpoint extends WebServiceGatewaySupport {
     
     private static final String NAMESPACE_URI = "http://entelect.training/incubator/spring-loyalty-service";
     
@@ -28,7 +29,7 @@ public class RewardsEndpoint {
     public CaptureRewardsResponse captureRewards(@RequestPayload CaptureRewardsRequest request) {
         final BigDecimal balance = this.rewardsService.updateBalance(request.getPassportNumber(), request.getAmount());
     
-        final CaptureRewardsResponse response = new CaptureRewardsResponse();
+        final CaptureRewardsResponse response = (CaptureRewardsResponse) getWebServiceTemplate().marshalSendAndReceive(request);
         response.setBalance(balance);
         return response;
     }
