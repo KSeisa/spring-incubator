@@ -13,6 +13,16 @@
     <artifactId>booking-service</artifactId>
 
     <dependencies>
+        <dependency>
+            <groupId>entelect.training.incubator.spring.customer</groupId>
+            <artifactId>customer-service</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>entelect.training.incubator.spring.flight</groupId>
+            <artifactId>flight-service</artifactId>
+            <version>${project.version}</version>
+        </dependency>
         <!-- Spring dependencies -->
         <dependency>
             <groupId>org.springframework.boot</groupId>

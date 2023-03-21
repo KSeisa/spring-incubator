@@ -1,0 +1,8 @@
+spring:
+  application:
+    name: booking-service
+
+server:
+  port: 8208
+  error:
+    include-message: always

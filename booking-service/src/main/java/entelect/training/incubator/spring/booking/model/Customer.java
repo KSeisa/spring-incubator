@@ -11,12 +11,21 @@ import javax.persistence.Id;
 @Data
 @NoArgsConstructor
 @Entity
-public class Booking {
+public class Customer {
+    
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-
-    private Integer customer;
-    private Integer flight;
-    private String referenceNumber;
+    
+    private String username;
+    
+    private String firstName;
+    
+    private String lastName;
+    
+    private String passportNumber;
+    
+    private String email;
+    
+    private String phoneNumber;
 }

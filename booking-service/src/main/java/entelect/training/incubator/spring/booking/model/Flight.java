@@ -7,16 +7,29 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import java.time.LocalDateTime;
 
 @Data
 @NoArgsConstructor
 @Entity
-public class Booking {
+public class Flight {
+    
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+    
+    private String flightNumber;
 
-    private Integer customer;
-    private Integer flight;
-    private String referenceNumber;
+    private String origin;
+
+    private String destination;
+    
+    private LocalDateTime departureTime;
+    
+    private LocalDateTime arrivalTime;
+    
+    private Integer seatsAvailable;
+    
+    private Float seatCost;
+
 }
