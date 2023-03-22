@@ -92,6 +92,8 @@ public class BookingController {
         Customer customer = (Customer) getRequest("http://localhost:8201/customers/", booking.getCustomer(), Customer.class);
         Flight flight = (Flight) getRequest("http://localhost:8202/flights/", booking.getFlight(), Flight.class);
 
+        flight.setSeatsAvailable(flight.getSeatsAvailable() - 1);
+
         MessageDto message = new MessageDto(){};
         message.setFirstName(customer.getFirstName());
         message.setLastName(customer.getLastName());
