@@ -14,7 +14,6 @@ public class BookingService {
 
     private final BookingRepository bookingRepository;
 
-
     public BookingService(BookingRepository bookingRepository){
         this.bookingRepository=bookingRepository;
     }
@@ -23,7 +22,7 @@ public class BookingService {
         RestTemplate restTemplate=new RestTemplate();
         String customerRest= "http://localhost:8201/customers/" + booking.getCustomer();
         String flightRest="http://localhost:8202/flights/" + booking.getFlight();
-        Customer customer= restTemplate.getForObject(customerRest,Customer.class);
+        Customer customer= restTemplate.getForObject(customerRest, Customer.class);
         Flight flight=restTemplate.getForObject(flightRest, Flight.class);
 
         if(customer == null || flight == null) {
