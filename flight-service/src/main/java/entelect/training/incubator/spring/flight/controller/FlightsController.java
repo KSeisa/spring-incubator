@@ -17,7 +17,7 @@ import java.util.List;
 
 @RestControllerAdvice
 @RequestMapping("flights")
-@CrossOrigin(origins ={"http://localhost:4200"}, methods={RequestMethod.GET, RequestMethod.POST})
+@CrossOrigin(origins ={"http://localhost:4200", "http://localhost:3000"}, methods={RequestMethod.GET, RequestMethod.POST})
 public class FlightsController {
 
     private final Logger LOGGER = LoggerFactory.getLogger(FlightsController.class);

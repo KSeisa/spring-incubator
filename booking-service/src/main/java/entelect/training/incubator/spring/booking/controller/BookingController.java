@@ -25,7 +25,7 @@ import java.util.Random;
 
 @RestController
 @RequestMapping("bookings")
-@CrossOrigin(origins ={"http://localhost:4200"}, methods={RequestMethod.GET, RequestMethod.POST})
+@CrossOrigin(origins ={"http://localhost:4200", "http://localhost:3000"}, methods={RequestMethod.GET, RequestMethod.POST})
 public class BookingController {
     private final Logger LOGGER = LoggerFactory.getLogger(BookingController.class);
 
