@@ -25,22 +25,26 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     //        auth.jdbcAuthentication().dataSource(securityDataSource);
     //    }
 
-//    @Override
-//    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-//        auth.inMemoryAuthentication().withUser("user").password("{noop}the_cake").roles("USER");
-//        auth.inMemoryAuthentication().withUser("admin").password("{noop}is_a_lie").roles("ADMIN");
-//    }
-//
     @Override
-    protected void configure(HttpSecurity http) throws Exception {
-        http.csrf().disable() // !!! Disclaimer: NEVER DISABLE CSRF IN PRODUCTION !!!
-                .cors().and()
-                .authorizeRequests()
-                .antMatchers(HttpMethod.GET, "/bookings/**").hasAnyRole("USER", "ADMIN")
-                .antMatchers(HttpMethod.POST, "/bookings/**").hasAnyRole("USER", "ADMIN")
-//                .anyRequest().denyAll()
-                .and()
-                .httpBasic();
+    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+        auth.inMemoryAuthentication().withUser("user").password("{noop}the_cake").roles("USER");
+        auth.inMemoryAuthentication().withUser("admin").password("{noop}is_a_lie").roles("ADMIN");
     }
 
+//    @Override
+//    protected void configure(HttpSecurity http) throws Exception {
+//        http.csrf().disable() // !!! Disclaimer: NEVER DISABLE CSRF IN PRODUCTION !!!
+//                .cors().and()
+//                .authorizeRequests()
+//                .antMatchers(HttpMethod.GET, "/bookings/**").hasAnyRole("USER", "ADMIN")
+//                .antMatchers(HttpMethod.POST, "/bookings/**").hasAnyRole("USER", "ADMIN")
+////                .anyRequest().denyAll()
+//                .and()
+//                .httpBasic();
+//    }
+
+    @Override
+    protected void configure(HttpSecurity http) throws Exception {
+        http.csrf().disable().authorizeRequests().anyRequest().anonymous().and().httpBasic().disable();
+    }
 }

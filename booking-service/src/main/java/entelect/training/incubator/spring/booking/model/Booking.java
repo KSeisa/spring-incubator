@@ -16,7 +16,7 @@ public class Booking {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    private Integer customer;
-    private Integer flight;
+    private Integer customerId;
+    private Integer flightId;
     private String referenceNumber;
 }
